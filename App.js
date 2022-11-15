@@ -1,5 +1,5 @@
-import Pesquisar from './telas/Pesquisar'
-import Historico from './telas/Historico';
+import Pesquisar from './pages/Pesquisar'
+import Historico from './pages/Historico';
 
 import React from 'react';
 import { Tab, Text, TabView } from '@rneui/themed';
@@ -33,10 +33,10 @@ return (
 
     <TabView value={index} onChange={setIndex} animationType="spring">
       <TabView.Item style={{ backgroundColor: 'red', width: '100%' }}>
-        <Text h1>Pesquisar</Text>
+        <Pesquisar/>
       </TabView.Item>
       <TabView.Item style={{ backgroundColor: 'blue', width: '100%' }}>
-        <Text>{Historico}</Text>
+        <Historico/>
       </TabView.Item>
     </TabView>
   </>
