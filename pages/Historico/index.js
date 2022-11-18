@@ -6,17 +6,28 @@ export default function Historico() {
 
     const [updateHistorico, setUpdateHistorico] = useState(0)
     const [resultados, setResultados] = useState([])
+    const [dados, setDados] = useState([])
     console.log("Atualizado")
     useEffect(() => {
     // define a função
     const fazBusca = async () => {
     const { data } = await axios.get('https://g665df6fa3d1993-projetorest.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/tb_historico/')
-        setResultados(data.items)
+        
+     setResultados(data.items)
       }
     // execução incondicional
       fazBusca()
     }, [updateHistorico])
 
+    // setResultados(resultados.map(e => {
+    //   var string = resultados.datapesquisa;
+    //   var final  =  string.substring(9,10) + "/" + string.substring(6,7);
+
+    //   return {
+    //     cod_historico: resultados.cod_historico,
+    //     datapesquisa: final,
+    //     cidade: resultados
+    //   }}))
 
     return (
       
@@ -29,7 +40,7 @@ export default function Historico() {
               renderItem={({item}) => 
                 
                 <Text style={styles.itens}> 
-                {'\n'} {item.datapesquisa} {item.cidade} 
+                {'\n'} {item.datapesquisa.substring(8,10)+'/'+item.datapesquisa.substring(5,7)} {item.cidade} 
                 </Text> }
               ListFooterComponent={ 
                 <Button

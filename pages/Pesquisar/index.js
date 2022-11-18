@@ -19,7 +19,7 @@ export default function Pesquisar() {
     const [oraclepost, setOraclepost]=useState([])
 
     const BuscarPrevisaoNoOpenWeather = () => {
-         axios.get(`https:api.openweathermap.org/data/2.5/forecast?q=${cidade}&appid=6c916327fba2e586d3508924647bf8df&units=metric`)
+          axios.get(`https:api.openweathermap.org/data/2.5/forecast?q=${cidade}&appid=6c916327fba2e586d3508924647bf8df&units=metric`)
             .then((response) => {
               console.log(cidade)
               setDados(response.data.list.map(e => {
@@ -27,14 +27,18 @@ export default function Pesquisar() {
                   dt_txt: e.dt_txt,
                   temp_min: e.main.temp_min,
                   temp_max: e.main.temp_max,
-                  cidade: response.data.city.name
+                  cidade: response.data.city.name,
+                  icon: e.weather[0].icon
                 }}))
-
+                        
               setOraclepost(response.data.list.map(e => {
-                return {
+                const aux = {
                     cidade: response.data.city.name,
                     datapesquisa: e.dt_txt
-                  }}))
+                  }
+                  return aux
+                }))
+
               console.log(dados[0])
               console.log(oraclepost[0])
               
@@ -88,7 +92,7 @@ export default function Pesquisar() {
         <View>
           <FlatList data={dados} 
                     keyExtractor={item => item.dt_txt}
-                   renderItem={({item}) => <Text> {'\n'} data: {item.dt_txt}  {'\n'}
+                   renderItem={({item}) => <Text> {'\n'} data: {item.dt_txt}  {'\n'}   icon: {item.icon} 
                                                   Minima: {item.temp_min}      Máxima: {item.temp_max} </Text> }/>
         </View>
 
