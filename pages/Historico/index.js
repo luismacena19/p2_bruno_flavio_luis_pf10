@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { Button, FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import { Button, FlatList,  StyleSheet, Text, View} from 'react-native';
 import React, { useState,useEffect } from 'react';
 import axios from 'axios'
 
@@ -20,26 +19,32 @@ export default function Historico() {
 
 
     return (
-      <View style={styles.container}>
-        {
-          resultados.map((resultado) =>(
-          <View key={resultado.cod_historico}>
-            <View style={styles.itens}>
-              <Text>{resultado.datapesquisa} {resultado.cidade}</Text>
-            </View>
-          </View>    
-          ))
-        }
-          <View style={styles.buttonStyle}>
-            {/* <Text>Open up Historico.js to start working on your app!</Text> */}
-            <Button 
-            title='Atualizar'
-            // perguntar ao prof pq ele faz o get mesmo não estando nessa tela
-            onPress={(e) => setUpdateHistorico(updateHistorico + 1)}
-            />
-          </View>
-        
-      </View>
+      
+        <View style={styles.container}>
+          
+            <View >
+              <FlatList 
+              data={resultados} 
+              keyExtractor={item => resultados.cod_historico}
+              renderItem={({item}) => 
+                
+                <Text style={styles.itens}> 
+                {'\n'} {item.datapesquisa} {item.cidade} 
+                </Text> }
+              ListFooterComponent={ 
+                <Button
+                  title='Atualizar'
+                  // perguntar ao prof pq ele faz o get mesmo não estando nessa tela
+                  onPress={(e) => setUpdateHistorico(updateHistorico + 1)}
+                  style={styles.buttonStyle}
+                /> 
+              }
+              ListFooterComponentStyle={{
+                marginLeft:290,
+                }}
+              />
+              </View>
+        </View>   
     );
   }
   
@@ -50,27 +55,14 @@ export default function Historico() {
       alignItems: 'center',
       borderColor: 'black',
       borderWidth: 2,
-      borderRadius:50
-
-    },
-    itens: {
-      backgroundColor:'#ggg',
-      alignItems: 'center',
-      borderColor: 'black',
-      borderWidth: 2,
       borderRadius:10
     },
-    buttonStyle: {
-      flexDirection: 'row',
-      justifyContent: 'flex-end',
-      
+    itens: {
+      backgroundColor:'#fff',
+      textAlign:'center',
+      borderColor: 'black',
+      borderWidth: 1,
+      borderRadius:10,
+      paddingBottom:22,
     },
   });
-  
-// data = {
-//        "cidade": "Diamantina",
-//        "datapesquisa": "2000-11-19T12:02:44Z"
-//      }
-// url = 'https://g665df6fa3d1993-projetorest.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/tb_historico/'
-      
-// res = requests.post(url,json=data)
