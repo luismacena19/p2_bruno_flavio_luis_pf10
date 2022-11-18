@@ -16,6 +16,8 @@ export default function Pesquisar() {
 
     const [dados, setDados] = useState([])
 
+    const [oraclepost, setOraclepost]=useState([])
+
     const BuscarPrevisaoNoOpenWeather = () => {
          axios.get(`https:api.openweathermap.org/data/2.5/forecast?q=${cidade}&appid=6c916327fba2e586d3508924647bf8df&units=metric`)
             .then((response) => {
@@ -24,16 +26,47 @@ export default function Pesquisar() {
                 return {
                   dt_txt: e.dt_txt,
                   temp_min: e.main.temp_min,
-                  temp_max: e.main.temp_max
-                }
-              }))
+                  temp_max: e.main.temp_max,
+                  cidade: response.data.city.name
+                }}))
+
+              setOraclepost(response.data.list.map(e => {
+                return {
+                    cidade: response.data.city.name,
+                    datapesquisa: e.dt_txt
+                  }}))
+              console.log(dados[0])
+              console.log(oraclepost[0])
               
-            })
+                var string = oraclepost[0].datapesquisa;
+                var final  =  string.substring(0,10) + "T" + string.substring(11) + "Z";
+                
+                  oraclepost[0] = {cidade: oraclepost[0].cidade, datapesquisa: final}
+                  console.log(oraclepost[0])
+
+                  axios.post('https://g665df6fa3d1993-projetorest.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/tb_historico/',oraclepost[0])
+                      .then(()=>{ 
+                       console.log('salvo no oracle')
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                    })              
+             
+              
+            
+                })
+                .catch((error) => {
+                  console.log(error);
+            
+          })
+              
        
-            .catch((error) => {
-                console.log(error);
-            })
-            //post no oracle
+          
+
+         
+
+
+
     }
   
     return (
@@ -54,7 +87,7 @@ export default function Pesquisar() {
 
         <View>
           <FlatList data={dados} 
-                    keyExtractor={item => item.dt}
+                    keyExtractor={item => item.dt_txt}
                    renderItem={({item}) => <Text> {'\n'} data: {item.dt_txt}  {'\n'}
                                                   Minima: {item.temp_min}      Máxima: {item.temp_max} </Text> }/>
         </View>
