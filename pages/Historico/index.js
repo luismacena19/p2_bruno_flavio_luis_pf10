@@ -36,7 +36,7 @@ export default function Historico() {
             <View >
               <FlatList 
               data={resultados} 
-              keyExtractor={item => resultados.cod_historico}
+              keyExtractor={item => item.cod_historico}
               renderItem={({item}) => 
                 
                 <Text style={styles.itens}> 
