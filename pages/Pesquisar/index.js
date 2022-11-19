@@ -1,5 +1,4 @@
-import { Button, 
-        FlatList,
+import { FlatList,
         StyleSheet, 
         Text, 
         TextInput, 
@@ -7,7 +6,7 @@ import { Button,
 
 import { useState } from 'react';
 import axios from "axios";
-import { ListItem } from '@rneui/themed';
+import { Button } from '@rneui/themed';
 
 export default function Pesquisar() {
     const [cidade, setCidade] = useState('')
@@ -54,62 +53,75 @@ export default function Pesquisar() {
                       })
                       .catch((error) => {
                         console.log(error);
-                    })              
-             
-              
-            
+                    })
                 })
                 .catch((error) => {
                   console.log(error);
-            
           })
-              
-       
-          
-
-         
-
-
-
     }
-  
-    return (
-
-            
+    return (   
       <View style={styles.container}>
-       
-        <TextInput
-        style={{borderBottomColor: '#CCC', borderBottomWidth: 2, padding: 12, marginBottom: 4}}
-        placeholder="Digite uma cidade"
-        onChangeText={capturarTexto}
-        value={cidade}
-      />
-        <Button 
-        title='Receber Previsões'
-        onPress={BuscarPrevisaoNoOpenWeather}
-        />  
 
-        <View>
-          <FlatList data={dados} 
-                    keyExtractor={item => item.dt_txt}
-                   renderItem={({item}) => <Text> {'\n'} data: {item.dt_txt}  {'\n'}   icon: {item.icon} 
-                                                  Minima: {item.temp_min}      Máxima: {item.temp_max} </Text> }/>
+        <View style={styles.containerList}>
+          <FlatList 
+            data={dados} 
+            keyExtractor={item => item.dt_txt}
+            renderItem={({item}) =>
+              <Text style={styles.itens}> 
+                {'\n'} data: {item.dt_txt}  {'\n'}   icon: {item.icon} Minima: {item.temp_min} Máxima: {item.temp_max}
+              </Text> 
+            }
+            ListHeaderComponent={
+              <TextInput
+                style={styles.textInputStyles}
+                placeholder="Digite uma cidade"
+                onChangeText={capturarTexto}
+                value={cidade}
+              />
+            }
+            ListFooterComponent={
+            <Button 
+              title='Receber Previsões'
+              onPress={BuscarPrevisaoNoOpenWeather}
+              />
+           }
+          />
         </View>
-
-     </View>
-     
-     
+     </View>     
     );
   }
-
 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+    },
+    containerList: {
+      flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
     },
-    
+    textInputStyles: {
+      flex:1,
+      alignItems: 'center',
+      color:'white',
+      padding: 12, 
+      marginBottom: 4,
+      borderColor: 'black',
+      borderWidth: 2,
+      borderRadius:10,
+      backgroundColor:'#40545F',
+  },
+  itens: {
+    flex:1,
+    backgroundColor:'#40545F',
+    textAlign:'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius:10,
+    marginTop: 10,
+    marginLeft: 60,
+    marginRight: 60,
+    fontSize: 25,
+    color:'white'
+  },
   })
-  

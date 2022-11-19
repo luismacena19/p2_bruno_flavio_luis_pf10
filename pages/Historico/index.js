@@ -1,12 +1,12 @@
-import { Button, FlatList,  StyleSheet, Text, View} from 'react-native';
+import { FlatList, StyleSheet, View} from 'react-native';
 import React, { useState,useEffect } from 'react';
 import axios from 'axios'
+import { Button,Text } from '@rneui/themed';
 
 export default function Historico() {
 
     const [updateHistorico, setUpdateHistorico] = useState(0)
     const [resultados, setResultados] = useState([])
-    const [dados, setDados] = useState([])
     console.log("Atualizado")
     useEffect(() => {
     // define a função
@@ -18,34 +18,22 @@ export default function Historico() {
     // execução incondicional
       fazBusca()
     }, [updateHistorico])
-
-    // setResultados(resultados.map(e => {
-    //   var string = resultados.datapesquisa;
-    //   var final  =  string.substring(9,10) + "/" + string.substring(6,7);
-
-    //   return {
-    //     cod_historico: resultados.cod_historico,
-    //     datapesquisa: final,
-    //     cidade: resultados
-    //   }}))
-
     return (
-      
         <View style={styles.container}>
           
             <View >
+            
               <FlatList 
               data={resultados} 
               keyExtractor={item => item.cod_historico}
               renderItem={({item}) => 
-                
                 <Text style={styles.itens}> 
-                {'\n'} {item.datapesquisa.substring(8,10)+'/'+item.datapesquisa.substring(5,7)} {item.cidade} 
-                </Text> }
+                {item.datapesquisa.substring(8,10)+'/'+item.datapesquisa.substring(5,7)} {item.cidade} 
+                </Text> 
+                }
               ListFooterComponent={ 
                 <Button
                   title='Atualizar'
-                  // perguntar ao prof pq ele faz o get mesmo não estando nessa tela
                   onPress={(e) => setUpdateHistorico(updateHistorico + 1)}
                   style={styles.buttonStyle}
                 /> 
@@ -55,25 +43,29 @@ export default function Historico() {
                 }}
               />
               </View>
+              
         </View>   
     );
   }
-  
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      borderColor: 'black',
-      borderWidth: 2,
-      borderRadius:10
     },
     itens: {
-      backgroundColor:'#fff',
+      flex:1,
+      backgroundColor:'#40545F',
       textAlign:'center',
       borderColor: 'black',
       borderWidth: 1,
       borderRadius:10,
-      paddingBottom:22,
+      marginTop: 5,
+      marginBottom:5,
+      marginLeft: 60,
+      marginRight: 60,
+      fontSize: 25,
+      color:'white'
     },
+    buttonStyle:{
+      marginTop: 10,
+    }
   });
