@@ -28,7 +28,10 @@ export default function Historico() {
               keyExtractor={item => item.cod_historico}
               renderItem={({item}) => 
                 <Text style={styles.itens}> 
-                {item.datapesquisa.substring(8,10)+'/'+item.datapesquisa.substring(5,7)} {item.cidade} 
+                Data Pesquisa: {item.datapesquisa.substring(8,10)+
+                '/'+item.datapesquisa.substring(5,7)+
+                '/'+item.datapesquisa.substring(0,4)} 
+                {'\n'}Cidade: {item.cidade} 
                 </Text> 
                 }
               ListFooterComponent={ 
@@ -53,17 +56,16 @@ export default function Historico() {
     },
     itens: {
       flex:1,
-      backgroundColor:'#40545F',
+      backgroundColor:'rgba(255,105,180,0.35)',
       textAlign:'center',
       borderColor: 'black',
       borderWidth: 1,
       borderRadius:10,
-      marginTop: 5,
-      marginBottom:5,
-      marginLeft: 60,
-      marginRight: 60,
+      marginTop: 15,
+      marginLeft: 20,
+      marginRight: 20,
       fontSize: 25,
-      color:'white'
+      color:'white',
     },
     buttonStyle:{
       marginTop: 10,

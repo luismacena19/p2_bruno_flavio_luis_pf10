@@ -1,4 +1,5 @@
-import { FlatList,
+import {Image,
+  FlatList,
         StyleSheet, 
         Text, 
         TextInput, 
@@ -7,6 +8,7 @@ import { FlatList,
 import { useState } from 'react';
 import axios from "axios";
 import { Button } from '@rneui/themed';
+
 
 export default function Pesquisar() {
     const [cidade, setCidade] = useState('')
@@ -67,24 +69,51 @@ export default function Pesquisar() {
             data={dados} 
             keyExtractor={item => item.dt_txt}
             renderItem={({item}) =>
+              <View>
+               <Image
+                style={{width: 50, height: 50}}
+                source={{uri: `http://openweathermap.org/img/wn/${item.icon}@2x.png`}}>
+                </Image> 
               <Text style={styles.itens}> 
-                {'\n'} data: {item.dt_txt}  {'\n'}   icon: {item.icon} Minima: {item.temp_min} Máxima: {item.temp_max}
-              </Text> 
+                 Data: {item.dt_txt.substring(8,10)+'/'+
+                        item.dt_txt.substring(5,7)+'/'+
+                        item.dt_txt.substring(0,4)} 
+                        {'\n'}Hora:{item.dt_txt.substring(11,16)}
+                        {'\n'} Minima: {item.temp_min}°C    Máxima: {item.temp_max}°C
+              </Text>
+              </View> 
             }
             ListHeaderComponent={
-              <TextInput
-                style={styles.textInputStyles}
-                placeholder="Digite uma cidade"
-                onChangeText={capturarTexto}
-                value={cidade}
-              />
+             <>
+             
+                  <TextInput
+                    name='inputcidade'
+                    style={styles.textInputStyles}
+                    placeholder="Digite uma cidade"
+                    onChangeText={capturarTexto}
+                    onKeyPre
+                    value={cidade}
+                  />
+                  <Button 
+                    type='solid'
+                    size='lg'
+                    color='primary'
+                    onPress={BuscarPrevisaoNoOpenWeather}
+                    icon={{ name: 'search', type: 'ionicon', color: 'white' }}
+                    containerStyle={{
+                      alignItems: 'center',
+                      width: 100,
+                      marginVertical: 10,
+                      marginRight: 20
+                    }}
+                    buttonStyle={{
+                    borderRadius: 15,
+                    }}
+                  />
+             
+            </>
             }
-            ListFooterComponent={
-            <Button 
-              title='Receber Previsões'
-              onPress={BuscarPrevisaoNoOpenWeather}
-              />
-           }
+            
           />
         </View>
      </View>     
@@ -93,35 +122,42 @@ export default function Pesquisar() {
 
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      flex:1,
+      alignItems: 'center'
     },
     containerList: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-    },
+     },
     textInputStyles: {
-      flex:1,
+      flex: 1,
       alignItems: 'center',
-      color:'white',
+      color:'black',
+      fontSize: 20,
       padding: 12, 
       marginBottom: 4,
-      borderColor: 'black',
+      width: 250,
+      marginLeft: 20,
+      marginRight: 20,
+      marginTop: 10,
+      borderColor: '#FF00FF',
       borderWidth: 2,
       borderRadius:10,
-      backgroundColor:'#40545F',
+      backgroundColor:'white',
+      opacity: 0.45
   },
+
   itens: {
     flex:1,
-    backgroundColor:'#40545F',
+    backgroundColor:'rgba(255,105,180,0.35)',
     textAlign:'center',
     borderColor: 'black',
     borderWidth: 1,
     borderRadius:10,
     marginTop: 10,
-    marginLeft: 60,
-    marginRight: 60,
+    width: 300,
     fontSize: 25,
-    color:'white'
+    color:'white',
   },
   })
