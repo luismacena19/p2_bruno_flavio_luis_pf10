@@ -1,73 +1,106 @@
-import { FlatList, StyleSheet, View} from 'react-native';
-import React, { useState,useEffect } from 'react';
-import axios from 'axios'
-import { Button,Text } from '@rneui/themed';
+import { 
+  FlatList, 
+  StyleSheet, 
+  TouchableOpacity,
+  View
+  } from 'react-native';
+import { 
+  React, 
+  useState, 
+  useEffect 
+  } from 'react';
+import { 
+  ListItem, 
+  Text 
+} from '@rneui/themed';
+import { obterHistorico } from '../../service/OracleCloudService';
 
 export default function Historico() {
 
     const [updateHistorico, setUpdateHistorico] = useState(0)
     const [resultados, setResultados] = useState([])
-    console.log("Atualizado")
+    
     useEffect(() => {
     // define a função
     const fazBusca = async () => {
-    const { data } = await axios.get('https://g665df6fa3d1993-projetorest.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/tb_historico/')
-        
-     setResultados(data.items)
+    const data  = ( await obterHistorico() ).data.items
+     setResultados(data)
       }
     // execução incondicional
       fazBusca()
+      console.log("Atualizado")
     }, [updateHistorico])
+    
+    const renderItem = ({ item }) => (
+      
+      <ListItem style={ styles.listItem }>
+          <ListItem.Title style={ styles.itens } theme={styles.itens }>{
+              item.datapesquisa.substring(8,10) +
+              '/' + item.datapesquisa.substring(5,7) +
+              '/' + item.datapesquisa.substring(0,4)
+            }
+          </ListItem.Title>
+          <ListItem.Subtitle style={ styles.itens }>
+              {item.cidade}
+          </ListItem.Subtitle>
+      </ListItem>
+    )
+    const keyExtractor = ( item,cod_historico) => cod_historico ;
     return (
-        <View style={styles.container}>
-          
-            <View >
-            
-              <FlatList 
-              data={resultados} 
-              keyExtractor={item => item.cod_historico}
-              renderItem={({item}) => 
-                <Text style={styles.itens}> 
-                Data Pesquisa: {item.datapesquisa.substring(8,10)+
-                '/'+item.datapesquisa.substring(5,7)+
-                '/'+item.datapesquisa.substring(0,4)} 
-                {'\n'}Cidade: {item.cidade} 
-                </Text> 
-                }
+              <FlatList
+                style={styles.container}
+                data={ resultados } 
+                keyExtractor={ keyExtractor }
+                renderItem={ renderItem }
+
               ListFooterComponent={ 
-                <Button
-                  title='Atualizar'
+                <TouchableOpacity 
                   onPress={(e) => setUpdateHistorico(updateHistorico + 1)}
-                  style={styles.buttonStyle}
-                /> 
+                  style={ styles.roundButton }>
+                  <View style={styles.buttonStyle}>
+                    <Text style={{ fontSize:15 }}>
+                      Atualizar
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               }
+
               ListFooterComponentStyle={{
-                marginLeft:290,
+                marginLeft:280,
                 }}
               />
-              </View>
-              
-        </View>   
     );
   }
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      flex: 1
     },
     itens: {
+      fontSize:20,
+      color:'black'
+    },
+    listItem:{
       flex:1,
-      backgroundColor:'rgba(255,105,180,0.35)',
-      textAlign:'center',
-      borderColor: 'black',
-      borderWidth: 1,
-      borderRadius:10,
+      marginTop: 15
+    },
+    buttonStyle:{
+      marginBottom:15,
       marginTop: 15,
       marginLeft: 20,
       marginRight: 20,
-      fontSize: 25,
-      color:'white',
-    },
-    buttonStyle:{
       marginTop: 10,
-    }
+      textAlign:'center'
+    },
+    roundButton: {
+      backgroundColor:'rgba(174,186,202,0.55)',
+      width: 95,
+      height: 90,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 100,
+      borderWidth:1,
+      borderColor: 'black',
+      marginBottom:10,
+      marginTop: 15
+    },
   });
