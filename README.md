@@ -12,4 +12,5 @@ Grupo :
 | Integrantes | RA |
 | ------ | ------ |
 | Bruno dos Santos Araújo        | 2040481913007 |
+| Flavio de Andrade dos Santos   | 2040481913052 |
 | Luis Henrique de Barros Macena | 2040481823040 |
