@@ -58,7 +58,7 @@ export default function Historico() {
                   onPress={(e) => setUpdateHistorico(updateHistorico + 1)}
                   style={ styles.roundButton }>
                   <View style={styles.buttonStyle}>
-                    <Text style={{ fontSize:15 }}>
+                    <Text style={{ fontSize:13 }}>
                       Atualizar
                     </Text>
                   </View>

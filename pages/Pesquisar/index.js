@@ -11,6 +11,8 @@ import { Button } from '@rneui/themed';
 import { 
   ListItem
 } from '@rneui/themed';
+import { obterPrevisoes } from '../../service/getWeatherMap';
+import {postarNoHistorico} from '../../service/postOracle'
 
 
 export default function Pesquisar() {
@@ -23,7 +25,7 @@ export default function Pesquisar() {
     const [oraclepost, setOraclepost]=useState([])
 
     const BuscarPrevisaoNoOpenWeather = () => {
-          axios.get(`https:api.openweathermap.org/data/2.5/forecast?q=${cidade}&appid=6c916327fba2e586d3508924647bf8df&units=metric`)
+            obterPrevisoes(cidade)
             .then((response) => {
               console.log(cidade)
               setDados(response.data.list.map(e => {
@@ -51,8 +53,8 @@ export default function Pesquisar() {
                 
                   oraclepost[0] = {cidade: oraclepost[0].cidade, datapesquisa: final}
                   console.log(oraclepost[0])
-
-                  axios.post('https://g665df6fa3d1993-projetorest.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/tb_historico/',oraclepost[0])
+                  postarNoHistorico(oraclepost[0])
+                 // axios.post('https://g665df6fa3d1993-projetorest.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/tb_historico/',oraclepost[0])
                       .then(()=>{ 
                        console.log('salvo no oracle')
                       })
