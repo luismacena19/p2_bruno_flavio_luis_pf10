@@ -3,6 +3,7 @@ import Historico from './pages/Historico';
 import { ImageBackground,Dimensions } from 'react-native'
 import React from 'react';
 import { Tab, TabView } from '@rneui/themed';
+import { Text, } from 'react-native';
 
 const width = Dimensions.get("window").width;
 
@@ -11,7 +12,9 @@ const [index, setIndex] = React.useState(0);
 
 return (
   <>
-  
+    <Text style={{backgroundColor: 'lightblue', color: 'darkmagenta', textAlign: 'center', 
+  fontWeight: 'bold'}}>{'\n'}MEU APP DO TEMPO{'\n'}</Text>
+ 
     <Tab
       value={index}
       onChange={(e) => setIndex(e)}

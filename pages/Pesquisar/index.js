@@ -8,6 +8,9 @@ import {Image,
 import { useState } from 'react';
 import axios from "axios";
 import { Button } from '@rneui/themed';
+import { 
+  ListItem
+} from '@rneui/themed';
 
 
 export default function Pesquisar() {
@@ -65,22 +68,41 @@ export default function Pesquisar() {
       <View style={styles.container}>
 
         <View style={styles.containerList}>
-          <FlatList 
+          <FlatList style={styles.flat}
             data={dados} 
             keyExtractor={item => item.dt_txt}
             renderItem={({item}) =>
-              <View>
-               <Image
-                style={{width: 50, height: 50}}
-                source={{uri: `http://openweathermap.org/img/wn/${item.icon}@2x.png`}}>
-                </Image> 
-              <Text style={styles.itens}> 
-                 Data: {item.dt_txt.substring(8,10)+'/'+
-                        item.dt_txt.substring(5,7)+'/'+
-                        item.dt_txt.substring(0,4)} 
-                        {'\n'}Hora:{item.dt_txt.substring(11,16)}
-                        {'\n'} Minima: {item.temp_min}°C    Máxima: {item.temp_max}°C
-              </Text>
+              <View style={styles.teste}>
+                        <ListItem style={ styles.listadeitens }
+                        bottomDivider
+                        chevron>
+                          <ListItem.Title style={ styles.subItens }>{
+                             <Image
+                             style={{width: 35, height: 35}}
+                             source={{uri: `http://openweathermap.org/img/wn/${item.icon}@2x.png`}}>
+                            </Image> 
+                           }
+                          </ListItem.Title >
+                          <ListItem.Subtitle style={ styles.itens }>
+
+                            { item.dt_txt.substring(8,10) +
+                              '/' + item.dt_txt.substring(5,7) +
+                              '/' + item.dt_txt.substring(0,4)}
+                            
+                            </ListItem.Subtitle>
+                          <ListItem.Subtitle style={ styles.itens }>
+                            { item.dt_txt.substring(11,16)+ 'h'}
+                          </ListItem.Subtitle>
+                          <ListItem.Subtitle style={ styles.itens }>
+                            {'Min:' + item.temp_min+'°C'}
+                          </ListItem.Subtitle>
+                          <ListItem.Subtitle style={ styles.itens }>
+                            {'Max:' + item.temp_max+'°C'}
+                          </ListItem.Subtitle>
+                        
+                          
+                      </ListItem>
+
               </View> 
             }
             ListHeaderComponent={
@@ -148,16 +170,34 @@ export default function Pesquisar() {
       opacity: 0.45
   },
 
-  itens: {
+  listadeitens:{
+    flexDirection: 'column',
+    backgroundColor: 'blue',
     flex:1,
-    backgroundColor:'rgba(255,105,180,0.35)',
+    marginTop: 10,
+    paddingtop: 50,
+   
+  },
+  subItens: {
+    
+     flexDirection: 'column',
+    position: 'relative',
+    backgroundColor:'lightblue',
     textAlign:'center',
     borderColor: 'black',
     borderWidth: 1,
     borderRadius:10,
-    marginTop: 10,
-    width: 300,
+    marginTop: 0,
+    width: 'auto',
     fontSize: 25,
-    color:'white',
+    color:'black',
+    },
+
+  itens: {
+    width: 'auto',
+   fontSize: 13,
+   fontWeight: 'bold',
+    color:'black',
+    
   },
   })
